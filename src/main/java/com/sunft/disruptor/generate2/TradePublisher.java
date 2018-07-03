@@ -15,7 +15,7 @@ public class TradePublisher implements Runnable {
     private Disruptor<Trade> disruptor;
     private CountDownLatch latch;
 
-    private static final int LOOP = 10;//模拟百万次交易的发生
+    private static final int LOOP = 1;//模拟百万次交易的发生
 
     public TradePublisher(CountDownLatch latch,Disruptor<Trade> disruptor) {
         this.disruptor=disruptor;
@@ -58,6 +58,11 @@ class TradeEventTranslator implements EventTranslator<Trade> {
         this.generateTrade(event);
     }
 
+    /**
+     * 相当于生产端填充数据
+     * @param trade 原始为空,填充后返回即可
+     * @return 生产者生产出来的数据
+     */
     private Trade generateTrade(Trade trade) {
         trade.setPrice(random.nextDouble() * 9999);
         return  trade;
